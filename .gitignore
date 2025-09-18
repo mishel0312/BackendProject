@@ -1,1 +1,6 @@
-node_modules\r\n.env\r\ncoverage\r\n.DS_Store\r\n*.log\r\n.jest-cache\r\n
+node_modules
+.env
+coverage
+.DS_Store
+*.log
+.jest-cache
