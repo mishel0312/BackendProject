@@ -15,12 +15,14 @@ const User = require('../src/models/users.model');
 const Cost = require('../src/models/costs.model');
 
 describe('Users endpoints', () => {
+  // Should fail with 400 when body is empty or invalid
   test('POST /api/add (user) validates body', async () => {
     const res = await request(app).post('/api/add').send({});
     expect(res.status).toBe(400);
     expect(res.body.errors).toBeDefined();
   });
 
+  // Should create a new user and return 201
   test('POST /api/add (user) creates user', async () => {
     User.findOne.mockResolvedValue(null);
     User.create.mockResolvedValue({ id: 1, first_name: 'Alice', last_name: 'Doe' });
@@ -31,6 +33,7 @@ describe('Users endpoints', () => {
     expect(res.body.id).toBe(1);
   });
 
+  // Should return one user including computed total
   test('GET /api/users/:id returns user with total', async () => {
     User.findOne.mockResolvedValue({ id: 1, first_name: 'Alice', last_name: 'Doe' });
     Cost.aggregate.mockResolvedValue([{ _id: null, total: 50 }]);
@@ -39,6 +42,7 @@ describe('Users endpoints', () => {
     expect(res.body.total).toBe(50);
   });
 
+  // Should return all users as an array
   test('GET /api/users lists users', async () => {
     User.find.mockResolvedValue([{ id: 1, first_name: 'Alice', last_name: 'Doe' }]);
     const res = await request(app).get('/api/users');
@@ -46,5 +50,3 @@ describe('Users endpoints', () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
-
-

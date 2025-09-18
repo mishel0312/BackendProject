@@ -7,11 +7,10 @@ jest.mock('../src/models/logs.model', () => ({
 }));
 
 describe('Logs endpoint', () => {
+  // Should return 200 and an array of logs
   test('GET /api/logs returns array', async () => {
     const res = await request(app).get('/api/logs');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
-
-

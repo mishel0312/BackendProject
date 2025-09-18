@@ -1,19 +1,19 @@
-// tests/reports.test.js
 const request = require('supertest');
 const app = require('../src/app');
 
-// מדמה את שירות הדוחות
 jest.mock('../src/services/report-compute.service', () => ({
   getMonthlyReport: jest.fn(),
 }));
 const { getMonthlyReport } = require('../src/services/report-compute.service');
 
 describe('Reports endpoint', () => {
+  // Should fail with 400 when missing required query params
   test('GET /api/report validates query', async () => {
     const res = await request(app).get('/api/report');
     expect(res.status).toBe(400);
   });
 
+  // Should return grouped costs by category from the mock
   test('GET /api/report groups entries by category', async () => {
     getMonthlyReport.mockResolvedValue({
       userid: 1,
